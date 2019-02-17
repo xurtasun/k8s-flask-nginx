@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: xurtasun-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name : "ingress-controller-global"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  backend:
+    serviceName: nginx-svc
+    servicePort: 80

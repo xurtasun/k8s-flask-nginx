@@ -1,0 +1,18 @@
+version : '3.7'
+services:
+  python-app:
+    image : xurtasun/softonic-test17:python-2.7
+    build: .
+    volumes:
+      - ./app/main.py:/app/main.py
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf/conf.d/nginx.conf:/etc/nginx/conf.d/nginx.conf
+  nginx-proxy:
+    container_name: nginx-proxy
+    image: nginx:latest
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./proxy/cache:/data/nginx/cache
+    ports:
+      - 80:80
+      - 443:443

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: python-app
+spec:
+  replicas: 3
+  selector:
+    app: python-app
+  template:
+    metadata:
+      name: python-app
+      labels:
+        app: python-app
+    spec:
+      containers:
+      - name: python-app
+        image: xurtasun/softonic-test17:python-2.7
+        ports:
+        - containerPort: 80 
