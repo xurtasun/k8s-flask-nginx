@@ -1,4 +1,4 @@
-Replication controller
-- python app
+Python APP with flask & uWSGI and nginx 
+  
 
 
