@@ -1,0 +1,42 @@
+variables:
+  GCP_PROJECT_ID: techtestcandidatesoftonic17
+  GCP_ZONE: us-west1-a
+  
+stages:
+  - credentials
+  - build
+  - test
+  - push
+  - deploy
+  
+
+credentials:
+  stage: credentials
+  image: xurtasun/gcloud-sdk:alpine
+  script:
+  - echo "${KUBE_CA_PEM}" > kube_ca.pem
+  - kubectl config set-cluster default-cluster --server=${KUBE_URL} --certificate-authority="$(pwd)/kube_ca.pem"
+  - kubectl config set-credentials default-admin --token=${KUBE_TOKEN}
+  - kubectl cluster-info
+
+  - echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+  - gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+  - gcloud config set project $GCP_PROJECT_ID
+  
+build:
+  stage: build
+  script:
+  - docker build . -t xurtasun/softonic-test17:python-2.7
+test:
+  stage: test
+  script:
+  - docker-compose up -d
+  - echo ###RUN SOME TEST HERE###
+push:
+  stage: push
+  script:
+  - docker push xurtasun/softonic-test17:python-2.7
+deploy:
+  stage: deploy
+  script:
+  - kubectl rolling-update python-app --image=xurtasun/softonic-test17:python-2.7
