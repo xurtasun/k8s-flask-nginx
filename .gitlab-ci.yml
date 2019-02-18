@@ -35,8 +35,8 @@ test:
 push:
   stage: push
   script:
-  - docker push xurtasun/softonic-test17:python-2.7
+  - docker push origin master xurtasun/softonic-test17:${CI_COMMIT_SHA:-latest}
 deploy:
   stage: deploy
   script:
-  - kubectl rolling-update python-app --image=xurtasun/softonic-test17:python-2.7
+  - kubectl rolling-update python-app --image=xurtasun/softonic-test17:${CI_COMMIT_SHA:-latest}
