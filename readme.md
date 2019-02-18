@@ -14,4 +14,6 @@ En el path ./k8s/ estan los ficheros utilizados para el deployment en kubernetes
   - nginx-svc.yml	
   - python-app-rpc.yml
   - python-app-svc.yml
+  
+Se ha usado un replication controller para levantar 3 replicas de la Aplicación y 1 servicio para publicarla, un replicaController para hacer el reverse proxy con nginx hacia las replicas del aplicativo, el servicio de éste en modo NodePort (Inicialmente el servicio definido con LoadBalancer para publicar el servicio al exterior) para que el ingressController pueda redirigir el trafico hacia el servicio de reverse proxy.
 
